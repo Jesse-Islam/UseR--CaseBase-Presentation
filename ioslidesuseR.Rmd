@@ -1,0 +1,130 @@
+---
+title: "A flexible approach to time-to-event data analysis using case-base sampling"
+author: "Jesse Islam"
+date: "July 11, 2019"
+output:
+  ioslides_presentation:
+    fig_caption: yes
+    incremental: yes
+    keep_md: yes
+    widescreen: yes
+  slidy_presentation:
+    incremental: yes
+  beamer_presentation:
+    incremental: yes
+  bibliography: 010-bibliography.bib
+---
+
+```{r packages,echo=FALSE}
+knitr::read_chunk("010-packages.R")
+
+```
+
+```{r required-packages, echo=FALSE, warning=FALSE,message=FALSE,results='hide'}
+#cleanbib()
+options("citation_format" = "pandoc")
+bib <- read.bibtex("010-bibliography.bib")
+```
+--- 
+
+#Motivating Example
+
+## Motivating Example {.emphasized}
+* Meet Carol
+    * Age: 56
+    * Worried about his Prostate
+    * What is Carol's two year risk for death by Prostate Cancer?
+
+## Popular methods in time-to-event analysis 
+
+* In disease etiology, we tend to make use of the proportional hazards hypothesis 
+    * Cox Regression
+
+* When we want the absolute risk:
+    * Parametric models
+    * Breslow estimator
+
+# Motivations for a new method
+## Motivations for a new method
+ *  Julien and Hanley (2008) found that survival analysis rarely produces prognostic functions, even though the software is widely available in cox regression packages.
+     * They believe that this is due to the Cumulative incidence curves (or survival curves) being stepwise rather than smooth, reducing interpretability.
+ * Parametric model packages don’t usually allow modification of the time component.
+ * a streamlined approach for reaching a **smooth absolute risk** curve
+
+
+#Data on the men in the European Randomized Study of Prostate Cancer Screening (ERSPC)
+
+## ERSPC Data
+
+* ~150 000 men ages 55-69
+* First start: 1991
+* End: 2006 
+*
+```{r , echo=FALSE, warning=FALSE,message=FALSE}
+ERSPCtable <- flextable( head(ERSPC, n = 7 ), col_keys=c("ScrArm","Follow.Up.Time","DeadOfPrCa"))
+
+ERSPCtable <- bold(ERSPCtable, part = "header")
+ERSPCtable <- fontsize(ERSPCtable, size=25)
+ERSPCtable <- fontsize(ERSPCtable, part = "header",size=32)
+ERSPCtable <- padding( ERSPCtable, padding = 10, part = "all" )
+ERSPCtable
+ERSPC$ScrArm <- factor(ERSPC$ScrArm, 
+                       levels = c(0,1), 
+                       labels = c("Control group", "Screening group"))
+```
+
+
+#Casebase: Population-Time plots
+
+##Casebase: Population-Time plots
+```{r, results='hide',warning=FALSE}
+pt_object <- casebase::popTime(ERSPC, event = "DeadOfPrCa",time="Follow.Up.Time")
+plot(pt_object)
+```
+
+#Casebase: Theory
+
+##Casebase: Sampling
+
+* Case-series: all observations where an event occurs
+* Base-series: The set of infinite person-moments within the time frame of a study
+* Person-moments: a point in time for a given person within the time frame of a study.
+
+
+##Casebase: Sampling
+
+* c = case-series
+* b = base-series
+* Should we use a ratio of b=100c, the coefficients are expected to be only 1% larger, using case-base sampling.
+* Casebase sampling simplifies the model fitting so that multinomal regression can be used.
+
+$$(\frac{1}{c}+\frac{1}{b})^{-1}$$
+
+##Casebase: GLMs
+
+ $$Let \ odds=e^{L}\\
+    \lambda(x,t)*B/b=odds \\
+    \lambda(x,t)*B/b=e^{L}\\
+    log(\lambda(\hat{x,t}))=log(b/B)+L$$
+
+##Casebase: Likelihood
+
+* For each event type $j=1,...,m$, there exists a non-homogeneous poisson process with a hazard $\lambda_{j}(t)$
+* for any given point in time, only one event can occur.
+* Censoring is non informative
+* casebase sampling also follows a nonhomogeneous Poisson process, where hazard = $\rho(t)$
+
+$$ \prod^{m}_{j=1}\frac{\lambda_{j}(t)^{dN_{j}(t)}}{\rho(t)+\sum^{m}_{j=1}\lambda_{j}(t)}$$
+
+##Casebase: Likelihood
+
+* likelihood is reminiscent to log odds
+    * Offset of $log(\rho(t))$ where does this come from??
+* Likelihood results in a mean of 0 and is asymptotically normal.
+* Gives access to GLM software and statistical tools. (deviance tests, information criteria, regualrization, etc.)
+
+$$ \prod^{m}_{j=1}\frac{\lambda_{j}(t)^{dN_{j}(t)}}{\rho(t)+\sum^{m}_{j=1}\lambda_{j}(t)}$$
+
+```{r , echo=FALSE, results='hide',warning=FALSE}
+bibliography()
+```
