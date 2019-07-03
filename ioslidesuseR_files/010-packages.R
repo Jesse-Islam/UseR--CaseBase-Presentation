@@ -27,7 +27,12 @@ if(!pckg) {
   getPckg("pacman")
   require(pacman)
 }
-
+pckg = try(require(flextable))
+if(!pckg) {
+  cat("Installing 'flextable' from CRAN\n")
+  getPckg("flextable")
+  require(flextable)
+}
 pckg = try(require(casebase))
 if(!pckg) {
   cat("Installing 'casebase' through pacman \n")
@@ -118,9 +123,4 @@ if(!pckg) {
     devtools::install_github('rstudio/DT')
     require(DT)
 }
-pckg = try(require(flextable))
-if(!pckg) {
-  cat("Installing 'flextable' from CRAN\n")
-  getPckg("flextable")
-  require(flextable)
-}
+

@@ -1,0 +1,68 @@
+\frametitle{Competing Risks}
+
+\begin{block}{Competing Risks}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Current methods:
+\item
+  Fine-Gray
+\item
+  Kaplan-Meier
+\item
+  Proposed method:
+\item
+  Case-Base
+\end{itemize}
+
+\end{block}
+
+\begin{block}{Competing Risks: Data}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Two diseases:
+\item
+  Lymphoblastic leukemia (ALL)
+\item
+  Myeloblastic leukemia (AML)
+\item
+  Contains a competing event.
+\end{itemize}
+
+\begin{longtable}[]{@{}lrr@{}}
+\toprule
+D & Status & ftime\tabularnewline
+\midrule
+\endhead
+ALL & 2 & 0.67\tabularnewline
+AML & 1 & 9.50\tabularnewline
+ALL & 0 & 131.77\tabularnewline
+ALL & 2 & 24.03\tabularnewline
+ALL & 2 & 1.47\tabularnewline
+ALL & 2 & 2.23\tabularnewline
+\bottomrule
+\end{longtable}
+
+\end{block}
+
+\begin{block}{Competing Risks: Absolute Risk}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model_cb <-}\StringTok{ }\NormalTok{casebase}\OperatorTok{::}\KeywordTok{fitSmoothHazard}\NormalTok{(Status }\OperatorTok{~}\StringTok{ }\NormalTok{ftime }
+\OperatorTok{+}\StringTok{ }\NormalTok{... , }\DataTypeTok{data =}\NormalTok{ bmtcrr)}
+\NormalTok{risk_cb <-}\StringTok{ }\KeywordTok{absoluteRisk}\NormalTok{(Model, Time, Newdata)}
+\end{Highlighting}
+\end{Shaded}
+
+\end{block}
+
+\begin{block}{Competing Risks: Absolute Risk}
+
+\includegraphics{BeamerUseR_files/figure-beamer/unnamed-chunk-20-1.pdf}
+
+\end{block}
+
