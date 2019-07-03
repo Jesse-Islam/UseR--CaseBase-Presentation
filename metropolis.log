@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7050 64-bit) (preloaded format=pdflatex 2019.6.15)  3 JUL 2019 08:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7050 64-bit) (preloaded format=pdflatex 2019.6.15)  3 JUL 2019 14:56
 entering extended mode
 **./metropolis.tex
 (metropolis.tex
@@ -1584,7 +1584,10 @@ LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <6> not available
 
 (metropolis.vrb) [37
 
-] [38
+]
+\openout4 = `metropolis.vrb'.
+
+(metropolis.vrb) [38
 
 ]
 \openout4 = `metropolis.vrb'.
@@ -1596,7 +1599,7 @@ File: wmodel_out.png Graphic file (type png)
 Package pdftex.def Info: wmodel_out.png  used on input line 10.
 (pdftex.def)             Requested size: 270.42726pt x 190.21751pt.
 )
-Overfull \vbox (26.87756pt too high) detected at line 392
+Overfull \vbox (26.87756pt too high) detected at line 397
  []
 
 [39
@@ -1617,21 +1620,21 @@ Overfull \vbox (26.87756pt too high) detected at line 392
 \openout4 = `metropolis.vrb'.
 
 (metropolis.vrb
-<metropolis_files/figure-beamer/unnamed-chunk-17-1.pdf, id=299, 722.7pt x 505.8
+<metropolis_files/figure-beamer/unnamed-chunk-18-1.pdf, id=299, 722.7pt x 505.8
 9pt>
-File: metropolis_files/figure-beamer/unnamed-chunk-17-1.pdf Graphic file (type 
+File: metropolis_files/figure-beamer/unnamed-chunk-18-1.pdf Graphic file (type 
 pdf)
-<use metropolis_files/figure-beamer/unnamed-chunk-17-1.pdf>
-Package pdftex.def Info: metropolis_files/figure-beamer/unnamed-chunk-17-1.pdf 
+<use metropolis_files/figure-beamer/unnamed-chunk-18-1.pdf>
+Package pdftex.def Info: metropolis_files/figure-beamer/unnamed-chunk-18-1.pdf 
  used on input line 9.
 (pdftex.def)             Requested size: 280.2639pt x 196.18472pt.
 )
-Overfull \vbox (17.20485pt too high) detected at line 439
+Overfull \vbox (17.20485pt too high) detected at line 444
  []
 
 [46
 
- <./metropolis_files/figure-beamer/unnamed-chunk-17-1.pdf>] [47
+ <./metropolis_files/figure-beamer/unnamed-chunk-18-1.pdf>] [47
 
 ] [48
 
@@ -1645,25 +1648,25 @@ Overfull \vbox (17.20485pt too high) detected at line 439
 \openout4 = `metropolis.vrb'.
 
 (metropolis.vrb)
-Overfull \vbox (40.15182pt too high) detected at line 507
+Overfull \vbox (40.15182pt too high) detected at line 512
  []
 
 [52
 
 ] (metropolis.vrb)
-Overfull \vbox (40.15182pt too high) detected at line 507
+Overfull \vbox (40.15182pt too high) detected at line 512
  []
 
 [53
 
 ] (metropolis.vrb)
-Overfull \vbox (40.15182pt too high) detected at line 507
+Overfull \vbox (40.15182pt too high) detected at line 512
  []
 
 [54
 
 ] (metropolis.vrb)
-Overfull \vbox (40.15182pt too high) detected at line 507
+Overfull \vbox (40.15182pt too high) detected at line 512
  []
 
 [55
@@ -1674,17 +1677,17 @@ Overfull \vbox (40.15182pt too high) detected at line 507
 (metropolis.vrb) [56
 
 ]
-<metropolis_files/figure-beamer/unnamed-chunk-22-1.pdf, id=363, 722.7pt x 505.8
+<metropolis_files/figure-beamer/unnamed-chunk-23-1.pdf, id=363, 722.7pt x 505.8
 9pt>
-File: metropolis_files/figure-beamer/unnamed-chunk-22-1.pdf Graphic file (type 
+File: metropolis_files/figure-beamer/unnamed-chunk-23-1.pdf Graphic file (type 
 pdf)
-<use metropolis_files/figure-beamer/unnamed-chunk-22-1.pdf>
-Package pdftex.def Info: metropolis_files/figure-beamer/unnamed-chunk-22-1.pdf 
- used on input line 526.
+<use metropolis_files/figure-beamer/unnamed-chunk-23-1.pdf>
+Package pdftex.def Info: metropolis_files/figure-beamer/unnamed-chunk-23-1.pdf 
+ used on input line 531.
 (pdftex.def)             Requested size: 280.2639pt x 196.18472pt.
 [57
 
- <./metropolis_files/figure-beamer/unnamed-chunk-22-1.pdf>] [58
+ <./metropolis_files/figure-beamer/unnamed-chunk-23-1.pdf>] [58
 
 ] [59
 
@@ -1708,18 +1711,18 @@ Package pdftex.def Info: metropolis_files/figure-beamer/unnamed-chunk-22-1.pdf
 \tf@snm=\write9
 \openout9 = `metropolis.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 561.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 561.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 566.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 566.
 (metropolis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 561.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 561.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 566.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 566.
 Package rerunfilecheck Info: File `metropolis.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 24869 strings out of 492895
- 491524 string characters out of 3125603
- 580725 words of memory out of 3000000
+ 24871 strings out of 492895
+ 491608 string characters out of 3125603
+ 581725 words of memory out of 3000000
  28053 multiletter control sequences out of 15000+200000
  55233 words of font info for 60 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1742,7 +1745,7 @@ s/J/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmsy10.pfb><C:/User
 s/J/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmsy8.pfb><C:/Users
 /J/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmtk10.pfb><C:/Users
 /J/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmtt10.pfb>
-Output written on metropolis.pdf (64 pages, 2684534 bytes).
+Output written on metropolis.pdf (64 pages, 2684744 bytes).
 PDF statistics:
  488 PDF objects out of 1000 (max. 8388607)
  129 named destinations out of 1000 (max. 500000)

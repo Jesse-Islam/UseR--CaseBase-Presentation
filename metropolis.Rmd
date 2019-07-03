@@ -17,6 +17,7 @@ library(splines)
 library(tidyverse)
 library(magrittr)
 library(timereg)
+set.seed(100)
 ```
 ---
 
@@ -29,7 +30,7 @@ knitr::opts_chunk$set(dev = 'pdf')
 * Meet Justin
     * Age: 56
     * Worried about his Prostate
-    * What is Justin's two year risk for death by Prostate Cancer?
+    * What is Justin's two year risk of death due to prostate cancer?
 
 ## Popular methods in time-to-event analysis 
 
@@ -42,7 +43,7 @@ knitr::opts_chunk$set(dev = 'pdf')
 
 ## Motivations for a new method
 * Julien and Hanley (2008) found that survival analysis rarely produces prognostic functions, even though the software is widely available in cox regression packages.
-* They believe that this is due to the Cumulative incidence curves (or survival curves) being stepwise rather than smooth, reducing interpretability.
+* They believe that this is due to the cumulative incidence curves (or survival curves) being stepwise rather than smooth, reducing interpretability.
 * Easily model non proportional hazards
 * Flexible fits
 * A streamlined approach for reaching a **smooth absolute risk** curve
@@ -203,7 +204,9 @@ casebase::fitSmoothHazard(status ~ log(time) + X)
 
 ##Casebase: Semi-Parametric models
 *Splines*: $g(t;\alpha) = \alpha \  bs(t)$
+```{r,echo=TRUE,eval=FALSE}
 casebase::fitSmoothHazard(status ~ bs(time) + X)
+```
 
 ##Prostate cancer hazard ratio
 ```{r,echo=FALSE, warning=FALSE,message=FALSE}
@@ -255,7 +258,7 @@ knitr::kable(compareHazard,row.names = FALSE)
 
 
 ## Absolute Risk
-* We have a bunch of different parametric Hazard models now.
+* We have a bunch of different parametric hazard models now.
 * To get the absolute risk, we need to evaluate the following equation in relation to the hazard:
 $$CI(x,t)=1-e^{-\int^{t}_{0}h(x,u)du}$$
 * *CI(x,t)*= Cumulative Incidence (Absolute Risk)
@@ -306,8 +309,8 @@ bg = "gray90")
 
 ##Competing Risks: Data
 * Two diseases:
-    * Lymphoblastic leukemia (ALL)
-    * Myeloblastic leukemia (AML)
+    * Acute Lymphoblastic leukemia (ALL)
+    * Acute Myeloblastic leukemia (AML)
 * Contains a competing event.
 
 ```{r eval=FALSE, echo=TRUE}
