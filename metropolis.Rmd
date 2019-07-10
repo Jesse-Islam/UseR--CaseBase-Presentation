@@ -27,14 +27,14 @@ knitr::opts_chunk$set(dev = 'pdf')
 ```
 
 ## Motivating example {.emphasized}
-* Meet Justin
+* Meet Justin.
     * Age: 56
-    * Worried about his Prostate
+    * Worried about his prostate.
     * What is Justin's two year risk of death due to prostate cancer?
 
 ## Popular methods in time-to-event analysis 
 
-* In disease etiology, we tend to make use of the proportional hazards hypothesis 
+* In disease etiology, we tend to make use of the proportional hazards hypothesis .
     * Cox Regression
 
 * When we want the absolute risk:
@@ -43,10 +43,9 @@ knitr::opts_chunk$set(dev = 'pdf')
 
 ## Motivations for a new method
 * Julien and Hanley found that survival analysis rarely produces prognostic functions, even though the software is widely available in cox regression packages. [1]
-* They believe that this is due to the cumulative incidence curves (or survival curves) being stepwise rather than smooth, reducing interpretability. [1]
-* Easily model non proportional hazards [1]
-* Flexible fits [1]
-* A streamlined approach for reaching a **smooth absolute risk** curve [1]
+* They believe the stepwise nature is the reason, as it reduces interpretability. [1]
+* Want to easily model non-proportional hazards. [1]
+* A streamlined approach for reaching a **smooth absolute risk** curve. [1]
 
 
 ## Dr. Cox's perspective
@@ -54,7 +53,7 @@ knitr::opts_chunk$set(dev = 'pdf')
 
 ## European Randomized Study of Prostate Cancer Screening (ERSPC) Data
 
-* ~150 000 men ages 55-69
+* ~150 000 men ages 55-69.
 * Examined effects screening has on death due to prostate cancer.
 
 ![](erspcdata.png)
@@ -80,14 +79,12 @@ ERSPC$ScrArm <- factor(ERSPC$ScrArm,
 ```
 
 ## Recall
-* Justin wants to know his two year risk for prostate cancer.
-* As Justin was not part of the study, we will consider him part of the control group where no screening occured.
-* **We will determine Justin's absolute risk using CaseBase!**
+* **Using the ERSPC dataset and casebase, we will determine Justin's absolute risk for death by prostate cancer.**
 
 ## Casebase Overview
 
 1. Clever sampling.
-2. Indirectly deals with censoring.
+2. Implicitly deals with censoring.
 3. Allows a parametric fit using *logistic regression*.
 
 * Casebase is parametric, and allows different parametric fits by incorporation of the time component.
@@ -252,7 +249,7 @@ knitr::kable(compareHazard,row.names = FALSE)
 * To get the absolute risk, we need to evaluate the following equation in relation to the hazard:
 $$CI(x,t)=1-e^{-\int^{t}_{0}h(x,u)du}$$
 * *CI(x,t)*= Cumulative Incidence (Absolute Risk)
-* *h(x,u)*= Hazard Ratio
+* *h(x,u)*= Hazard function
 
 * Lets use the weibull hazard
 
@@ -289,6 +286,47 @@ bg = "gray90")
 
 ```
 
+## Summary
+
+* Casebase sampling implicitly incorporates censoring and permits the use of GLMs and the tools associated with them
+* The casebase package contains tools to generate:
+    * Population-Time plots
+    * Hazard functions
+    * Absolute Risk
+    * Casebase can deal with competing risks.
+
+
+## References 1
+
+1.Hanley, James A, and Olli S Miettinen. 2009. "Fitting Smooth-in-Time Prognostic Risk Functions via Logistic Regression." *The International Journal of Biostatistics 5 (1)*.
+
+2.Olli presentation slides?
+
+3.Saarela, Olli. 2015. "A Case-Base Sampling Method for Estimating Recurrent Event Intensities." *Lifetime Data Analysis*. Springer, 1–17
+
+## References 2
+
+4.Schroder FH, et al., for the ERSPC Investigators.Screening and Prostate-Cancer Mortality in a Randomized European Study. *N Engl J Med* 2009;360:1320-8.
+
+5.Scrucca L, Santucci A, Aversa F. Competing risk analysis using R: an easy guide for clinicians. *Bone Marrow Transplant*. 2007 Aug;40(4):381-7. doi: 10.1038/sj.bmt.1705727.
+
+6.Turgeon, M. (2017, June 10). Retrieved May 05, 2019, from https://www.maxturgeon.ca/slides/MTurgeon-2017-Student-Conference.pdf
+
+## Tutorial and Slides
+\begin{center}
+Tutorial:
+
+http://sahirbhatnagar.com/casebase/
+
+Slides:
+
+https://github.com/Jesse-Islam/UseR--CaseBase-Presentation
+
+
+Questions?
+\end{center}
+
+## APPENDIX
 
 ## Competing Risks
 * Current methods:
@@ -374,42 +412,3 @@ risk_cb <- absoluteRisk(fit_cb, Time, Newdata)
 ```{r,warning=FALSE,message=FALSE}
 p
 ```
-
-## Summary
-* Casebase sampling implicitly incorporates censoring and permits the use of GLMs and the tools associated with them
-* The casebase package contains tools to generate:
-    * Population-Time plots
-    * Hazard functions
-    * Absolute Risk
-    * Casebase can deal with competing risks.
-
-
-## References 1
-
-1.Hanley, James A, and Olli S Miettinen. 2009. "Fitting Smooth-in-Time Prognostic Risk Functions via Logistic Regression." *The International Journal of Biostatistics 5 (1)*.
-
-2.Olli presentation slides?
-
-3.Saarela, Olli. 2015. "A Case-Base Sampling Method for Estimating Recurrent Event Intensities." *Lifetime Data Analysis*. Springer, 1–17
-
-## References 2
-
-4.Schroder FH, et al., for the ERSPC Investigators.Screening and Prostate-Cancer Mortality in a Randomized European Study. *N Engl J Med* 2009;360:1320-8.
-
-5.Scrucca L, Santucci A, Aversa F. Competing risk analysis using R: an easy guide for clinicians. *Bone Marrow Transplant*. 2007 Aug;40(4):381-7. doi: 10.1038/sj.bmt.1705727.
-
-6.Turgeon, M. (2017, June 10). Retrieved May 05, 2019, from https://www.maxturgeon.ca/slides/MTurgeon-2017-Student-Conference.pdf
-
-## Tutorial and Slides
-\begin{center}
-Tutorial:
-
-http://sahirbhatnagar.com/casebase/
-
-Slides:
-
-https://github.com/Jesse-Islam/UseR--CaseBase-Presentation
-
-
-Questions?
-\end{center}
