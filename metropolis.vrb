@@ -2,10 +2,10 @@
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{model_cb <-}\StringTok{ }\NormalTok{casebase}\OperatorTok{::}\KeywordTok{fitSmoothHazard}\NormalTok{(Status }\OperatorTok{~}\StringTok{ }\NormalTok{ftime }
+\NormalTok{fit_cb <-}\StringTok{ }\NormalTok{casebase}\OperatorTok{::}\KeywordTok{fitSmoothHazard}\NormalTok{(Status }\OperatorTok{~}\StringTok{ }\NormalTok{ftime }
                                       \OperatorTok{+}\StringTok{ }\NormalTok{... , }\DataTypeTok{data =}
 \NormalTok{                                      bmtcrr)}
-\NormalTok{risk_cb <-}\StringTok{ }\KeywordTok{absoluteRisk}\NormalTok{(model_cb, Time, Newdata)}
+\NormalTok{risk_cb <-}\StringTok{ }\KeywordTok{absoluteRisk}\NormalTok{(fit_cb, Time, Newdata)}
 \end{Highlighting}
 \end{Shaded}
 

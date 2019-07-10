@@ -42,29 +42,24 @@ knitr::opts_chunk$set(dev = 'pdf')
     * Breslow estimator
 
 ## Motivations for a new method
-* Julien and Hanley (2008) found that survival analysis rarely produces prognostic functions, even though the software is widely available in cox regression packages.
-* They believe that this is due to the cumulative incidence curves (or survival curves) being stepwise rather than smooth, reducing interpretability.
-* Easily model non proportional hazards
-* Flexible fits
-* A streamlined approach for reaching a **smooth absolute risk** curve
+* Julien and Hanley found that survival analysis rarely produces prognostic functions, even though the software is widely available in cox regression packages. [1]
+* They believe that this is due to the cumulative incidence curves (or survival curves) being stepwise rather than smooth, reducing interpretability. [1]
+* Easily model non proportional hazards [1]
+* Flexible fits [1]
+* A streamlined approach for reaching a **smooth absolute risk** curve [1]
 
 
-
-## Dr. Hernan's perspective
-![](hernan_HR_tweet.png)
-
-##Dr. Cox's perspective
+## Dr. Cox's perspective
 ![](coxquote.png)
 
 ## European Randomized Study of Prostate Cancer Screening (ERSPC) Data
 
 * ~150 000 men ages 55-69
-* First start: 1991
-* End: 2006 
+* Examined effects screening has on death due to prostate cancer.
 
 ![](erspcdata.png)
 
-Schroder FH, et al., for the ERSPC Investigators.Screening and Prostate-Cancer Mortality in a Randomized European Study. N Engl J Med 2009;360:1320-8.
+
 
 ## ERSPC Data
 ```{r echo=TRUE,eval=FALSE}
@@ -84,12 +79,12 @@ ERSPC$ScrArm <- factor(ERSPC$ScrArm,
                        labels = c("Control group", "Screening group"))
 ```
 
-##Recall
+## Recall
 * Justin wants to know his two year risk for prostate cancer.
-* As Justin was not part of the study, we will consider him part of the control group where no screening occured
+* As Justin was not part of the study, we will consider him part of the control group where no screening occured.
 * **We will determine Justin's absolute risk using CaseBase!**
 
-##Casebase Overview
+## Casebase Overview
 
 1. Clever sampling.
 2. Indirectly deals with censoring.
@@ -98,7 +93,7 @@ ERSPC$ScrArm <- factor(ERSPC$ScrArm,
 * Casebase is parametric, and allows different parametric fits by incorporation of the time component.
 * Package contains an implementation for generating *population-time* plots.
 
-##Casebase: Sampling
+## Casebase: Sampling
 ```{r , echo=FALSE, warning=FALSE,message=FALSE}
 ERSPC=casebase::ERSPC
 nobs <- nrow(ERSPC)
@@ -120,7 +115,7 @@ xlab = 'Follow-up time (years)', ylab = 'Population')
 
 ```
 
-##Casebase: Sampling
+## Casebase: Sampling
 ```{r , echo=FALSE, warning=FALSE,message=FALSE}
 plot(0, type = 'n', xlim = c(0, max(ftime)), ylim = c(0, nobs),
 xlab = 'Follow-up time (years)', ylab = 'Population')
@@ -129,7 +124,7 @@ c(0, nobs, yCoords[,3], 0, 0),
 col = "grey80")
 ```
 
-##Casebase: Sampling
+## Casebase: Sampling
 ```{r , echo=FALSE, warning=FALSE,message=FALSE}
 plot(0, type = 'n', xlim = c(0, max(ftime)), ylim = c(0, nobs), legend=TRUE,
 xlab = 'Follow-up time (years)', ylab = 'Population')
@@ -144,7 +139,7 @@ pch = 19)
 
 ```
 
-##Casebase: Sampling
+## Casebase: Sampling
 ```{r,echo=TRUE,eval=FALSE}
 casebase::popTime(Data,Event,Time)
 ```
@@ -165,7 +160,7 @@ ftime="Follow.Up.Time"
 ```
 
 
-##Casebase: Sampling
+## Casebase: Sampling
 ```{r,echo=FALSE}
 ftime <- ERSPC$Follow.Up.Time
 plot(0, type = 'n', xlim = c(0, max(ftime)), ylim = c(0, nobs),
@@ -182,40 +177,35 @@ ERSPC$ScrArm<-factor(ERSPC$ScrArm)
 ERSPC$DeadOfPrCa<-as.numeric(ERSPC$DeadOfPrCa)
 ```
 
-##Casebase: Parametric families
+## Casebase: Parametric families
 * We can now fit models of the form:
 $$\ log(h(t;\alpha,\beta))=g(t;\alpha)+\beta X$$
 * By changing the function $g(t;\alpha)$, we can model different parametric families easily:
 
 
-##Casebase: Parametric models
+## Casebase: Parametric models
 *Exponential*: $g(t;\alpha)$ is equal to a constant
 ```{r,echo=TRUE,eval=FALSE}
-casebase::fitSmoothHazard(status ~ X)
+casebase::fitSmoothHazard(status ~ X1 + X2)
 ```
 *Gompertz*: $g(t;\alpha)=\alpha t$
 ```{r,echo=TRUE,eval=FALSE}
-casebase::fitSmoothHazard(status ~ time + X)
+casebase::fitSmoothHazard(status ~ time + X1 + X2)
 ```
 *Weibull*: $g(t;\alpha) = \alpha log(t)$
 ```{r,echo=TRUE,eval=FALSE}
-casebase::fitSmoothHazard(status ~ log(time) + X)
+casebase::fitSmoothHazard(status ~ log(time) + X1 + X2)
 ```
 
-##Casebase: Semi-Parametric models
-*Splines*: $g(t;\alpha) = \alpha \  bs(t)$
-```{r,echo=TRUE,eval=FALSE}
-casebase::fitSmoothHazard(status ~ bs(time) + X)
-```
 
-##Prostate cancer hazard ratio
+## Death by prostate cancer: hazard ratios
 ```{r,echo=FALSE, warning=FALSE,message=FALSE}
 wModel<-casebase::fitSmoothHazard(DeadOfPrCa ~
 log(Follow.Up.Time) + 
 ScrArm, data=casebase::ERSPC, ratio = 100)
 ```
 ```{r,echo=TRUE, warning=FALSE,message=FALSE,eval=FALSE}
-casebase::fitSmoothHazard(DeadOfPrCa ~ log(Follow.Up.Time) + 
+casebase::fitSmoothHazard(DeadOfPrCa~ log(Follow.Up.Time)+ 
                           ScrArm, data=ERSPC, ratio = 100)
 ```
 
@@ -225,7 +215,7 @@ casebase::fitSmoothHazard(DeadOfPrCa ~ log(Follow.Up.Time) +
 
 ![](wmodel_out.png){width=88%}
 
-##ERSPC Hazard comparison
+## ERSPC Hazard comparison
 ```{r echo=FALSE, warning=FALSE,message=FALSE}
 round_df <- function(x, digits) {
     # round all numeric variables
@@ -242,13 +232,13 @@ wModel <- casebase::fitSmoothHazard(DeadOfPrCa ~ log(Follow.Up.Time)
 + ScrArm, data=ERSPC, ratio = 100)
 sModel <- casebase::fitSmoothHazard(DeadOfPrCa ~ bs(Follow.Up.Time) + ScrArm, data=ERSPC, ratio = 100)
 coxModel<-coxph(Surv(Follow.Up.Time,DeadOfPrCa ) ~ ScrArm, data=ERSPC)
-compareHazard1=as.data.frame(cbind(coxModel$coefficients, gModel$coefficients[3] ,eModel$coefficients[2],wModel$coefficients[3],sModel$coefficients[5]))
+compareHazard1=as.data.frame(cbind(coxModel$coefficients, gModel$coefficients[3] ,eModel$coefficients[2],wModel$coefficients[3]))
 
-compareHazard1=as.data.frame(rbind(coxModel$coefficients, gModel$coefficients[3] ,eModel$coefficients[2], wModel$coefficients[3], sModel$coefficients[5]))
-compareHazard2=as.data.frame(rbind(summary(coxModel)$coefficients[3], summary(gModel)$coefficients[3,2],summary(eModel)$coefficients[2,2], summary(wModel)$coefficients[3,2], summary(sModel)$coefficients[5,2]))
+compareHazard1=as.data.frame(rbind(coxModel$coefficients, gModel$coefficients[3] ,eModel$coefficients[2], wModel$coefficients[3]))
+compareHazard2=as.data.frame(rbind(summary(coxModel)$coefficients[3], summary(gModel)$coefficients[3,2],summary(eModel)$coefficients[2,2], summary(wModel)$coefficients[3,2] ))
 compareHazard1=round_df(exp(compareHazard1),3)
 compareHazard2=round_df(exp(compareHazard2),3)
-names=c("Cox","Gompertz","Exponential","Weibull","Splines")
+names=c("Cox","Gompertz","Exponential","Weibull")
 compareHazard=cbind(names,compareHazard1,compareHazard2)
 colnames(compareHazard)=c('Model',"Hazard Ratio","Std.Error")
 
@@ -267,9 +257,9 @@ $$CI(x,t)=1-e^{-\int^{t}_{0}h(x,u)du}$$
 * Lets use the weibull hazard
 
 
-##Casebase: Absolute Risk comparison
+## Casebase: Absolute Risk comparison
 ```{r eval=FALSE,echo=TRUE}
-casebase::absoluteRisk(Hazard, time, newdata)
+casebase::absoluteRisk(fit, time=5, covariate_profile)
 ```
 ```{r echo=FALSE,warning=FALSE,message=FALSE}
 time_points <- seq(0,15, 1)
@@ -300,14 +290,14 @@ bg = "gray90")
 ```
 
 
-##Competing Risks
+## Competing Risks
 * Current methods:
     * Fine-Gray
     * Kaplan-Meier
 * Proposed method:
     * Case-Base
 
-##Competing Risks: Data
+## Competing Risks: Data
 * Two diseases:
     * Acute Lymphoblastic leukemia (ALL)
     * Acute Myeloblastic leukemia (AML)
@@ -322,7 +312,7 @@ sample=sample[,c("D","Status","ftime")]
 knitr::kable(head(sample),row.names = FALSE)
 ```
 
-Scrucca L, Santucci A, Aversa F. Competing risk analysis using R: an easy guide for clinicians. Bone Marrow Transplant. 2007 Aug;40(4):381-7. doi: 10.1038/sj.bmt.1705727.
+
 
 
 ```{r,echo=FALSE,warning=FALSE,message=FALSE}
@@ -334,19 +324,19 @@ levels = c("CR1", "CR2", "CR3", "Relapse")),
 "Age" = c(35, 35),
 "Source" = factor(c("PB", "PB"), 
 levels = c("BM+PB", "PB")))
-model_cb <- fitSmoothHazard(Status ~ ftime + Sex + D + Phase + Source + Age,
+fit_cb <- fitSmoothHazard(Status ~ ftime + Sex + D + Phase + Source + Age,
 data = bmtcrr, time = "ftime")
-model_fg <- comp.risk(Event(ftime, Status) ~ const(Sex) + const(D) + 
+fit_fg <- comp.risk(Event(ftime, Status) ~ const(Sex) + const(D) + 
 const(Phase) + const(Source) + const(Age), 
 data = bmtcrr, cause = 1, model = "fg")
 time_points <- (0:100)*60/100
-risk_cb <- absoluteRisk(object = model_cb, time = time_points, method = "montecarlo", newdata = newdata)
+risk_cb <- absoluteRisk(object = fit_cb, time = time_points, method = "montecarlo", newdata = newdata)
 risk_cb <- bind_rows(data.frame(Time = time_points, Method = "Case-base", Risk = risk_cb[,2], Disease = "ALL",
 stringsAsFactors = FALSE),
 data.frame(Time = time_points, Method = "Case-base", Risk = risk_cb[,3], Disease = "AML",
 stringsAsFactors = FALSE))
 
-risk_fg <- predict(model_fg, newdata, times = time_points)
+risk_fg <- predict(fit_fg, newdata, times = time_points)
 risk_fg <- bind_rows(data.frame(Time = time_points, Method = "Fine-Gray", Risk = risk_fg$P1[1,], Disease = "ALL",
 stringsAsFactors = FALSE),
 data.frame(Time = time_points, Method = "Fine-Gray", Risk = risk_fg$P1[2,], Disease = "AML",
@@ -372,20 +362,20 @@ geom_line(data = . %>% filter(Method == "Case-base"),size=1.5) +
 facet_grid(Disease ~ ., labeller = as_labeller(disease_names)) + ylim(c(0,1)) + theme(legend.position = "top") +
 xlab("Time (in Months)") + ylab("Relapse risk")
 ```
-##Competing Risks: Absolute Risk
+## Competing Risks: Absolute Risk
 ```{r echo=TRUE,eval=FALSE,warning=FALSE,message=FALSE}
-model_cb <- casebase::fitSmoothHazard(Status ~ ftime 
+fit_cb <- casebase::fitSmoothHazard(Status ~ ftime 
                                       + ... , data =
                                       bmtcrr)
-risk_cb <- absoluteRisk(model_cb, Time, Newdata)
+risk_cb <- absoluteRisk(fit_cb, Time, Newdata)
 ```
 
-##Competing Risks: Absolute Risk
+## Competing Risks: Absolute Risk
 ```{r,warning=FALSE,message=FALSE}
 p
 ```
 
-##Summary
+## Summary
 * Casebase sampling implicitly incorporates censoring and permits the use of GLMs and the tools associated with them
 * The casebase package contains tools to generate:
     * Population-Time plots
@@ -394,14 +384,32 @@ p
     * Casebase can deal with competing risks.
 
 
-##References
+## References 1
+
+1.Hanley, James A, and Olli S Miettinen. 2009. "Fitting Smooth-in-Time Prognostic Risk Functions via Logistic Regression." *The International Journal of Biostatistics 5 (1)*.
+
+2.Olli presentation slides?
+
+3.Saarela, Olli. 2015. "A Case-Base Sampling Method for Estimating Recurrent Event Intensities." *Lifetime Data Analysis*. Springer, 1–17
+
+## References 2
+
+4.Schroder FH, et al., for the ERSPC Investigators.Screening and Prostate-Cancer Mortality in a Randomized European Study. *N Engl J Med* 2009;360:1320-8.
+
+5.Scrucca L, Santucci A, Aversa F. Competing risk analysis using R: an easy guide for clinicians. *Bone Marrow Transplant*. 2007 Aug;40(4):381-7. doi: 10.1038/sj.bmt.1705727.
+
+6.Turgeon, M. (2017, June 10). Retrieved May 05, 2019, from https://www.maxturgeon.ca/slides/MTurgeon-2017-Student-Conference.pdf
+
+## Tutorial and Slides
+\begin{center}
+Tutorial:
 
 http://sahirbhatnagar.com/casebase/
-Math paper
-Hanley paper
-Max Presentation slides
-Olli presentation slides
-data reference
-data reference
+
+Slides:
+
+https://github.com/Jesse-Islam/UseR--CaseBase-Presentation
 
 
+Questions?
+\end{center}
